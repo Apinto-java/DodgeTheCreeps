@@ -4,11 +4,14 @@ extends Node
 @onready var score_timer: Timer = $ScoreTimer
 @onready var mob_timer: Timer = $MobTimer
 @onready var hud = $HUD
+@onready var pause_menu = $PauseMenu
 @onready var player = $Player
 @onready var start_position: Marker2D = $StartPosition
 @onready var music = $Music
 @onready var death_sound = $DeathSound
 var score
+
+signal can_pause_changed(can_pause: bool)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,8 +21,8 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func game_over():
+	can_pause_changed.emit(false)
 	score_timer.stop()
 	mob_timer.stop()
 	hud.show_game_over()
@@ -39,6 +42,7 @@ func new_game():
 func _on_start_timer_timeout():
 	mob_timer.start()
 	score_timer.start()
+	can_pause_changed.emit(true)
 
 
 func _on_score_timer_timeout():
