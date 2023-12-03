@@ -2,44 +2,67 @@ extends CanvasLayer
 
 signal start_game
 
-@onready var message: Label = $Message
-@onready var message_timer: Timer = $MessageTimer
-@onready var start_button: Button = $StartButton
-@onready var score_label: Label = $ScoreLabel
+@onready var buttons = $ButtonContainer
+@onready var game_hud = $GameHUD
+@onready var options = $OptionsMenu
+@onready var pause_menu = $PauseMenu
+var can_pause: bool = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	game_hud.get_node("ScoreLabel").visible = false
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if Input.is_action_just_pressed("pause") && can_pause:
+		pause_and_unpause()
+
+func pause_and_unpause():
+	get_tree().paused = !get_tree().paused
+	pause_menu.visible = get_tree().paused
+	buttons.visible = get_tree().paused
+	buttons.get_node("StartButton").visible = !get_tree().paused
+
+func _on_resume_button_pressed():
+	pause_and_unpause()
 
 func show_message(text: String):
-	message.text = text
-	message.show()
-	message_timer.start()
+	game_hud.show_message(text)
 
 func show_game_over():
-	show_message("Game Over")
-	# Wait until the MessageTimer has counted down.
-	await message_timer.timeout
-	
-	message.text = "Dodge the Creeps!"
-	message.show()
-	# Make a one-shot timer and wait for it to finish.
-	await get_tree().create_timer(1.0).timeout
-	start_button.show()
+	game_hud.get_node("ScoreLabel").visible = false
+	game_hud.show_game_over()
+
+func _on_game_over_finished():
+	buttons.show()
 
 func update_score(score):
-	score_label.text = str(score)
+	game_hud.update_score(score)
 
+func show_score():
+	game_hud.get_node("ScoreLabel").visible = true
 
 func _on_start_button_pressed():
-	start_button.hide()
+	buttons.hide()
 	start_game.emit()
 
+func _on_pause_menu_restart_button_pressed():
+	pause_and_unpause()
+	_on_start_button_pressed()
 
-func _on_message_timer_timeout():
-	message.hide()
+func _on_options_button_pressed():
+	buttons.hide()
+	game_hud.hide()
+	pause_menu.hide()
+	options.show()
+
+func _on_options_menu_options_closed():
+	options.hide()
+	buttons.show()
+	pause_menu.visible = get_tree().paused
+	game_hud.show()
+
+func _on_exit_button_pressed():
+	get_tree().quit()
+
+func _can_pause_changed(can_pause_value):
+	can_pause = can_pause_value
+
