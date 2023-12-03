@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5h5ow130d3p8"]
+[gd_scene load_steps=5 format=3 uid="uid://dimtv0os7sekk"]
 
 [ext_resource type="Theme" uid="uid://d2vfdeuycvrrh" path="res://themes/container_theme.tres" id="1_5f47s"]
 [ext_resource type="Theme" uid="uid://e0ko5wbqflma" path="res://themes/title_theme.tres" id="2_kebx2"]
@@ -45,6 +45,17 @@ text = "Fullscreen
 "
 alignment = 1
 
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("3_s6jy7")
+text = "Resolution
+"
+
+[node name="ResolutionsList" type="OptionButton" parent="."]
+layout_mode = 2
+theme = ExtResource("3_s6jy7")
+button_pressed = true
+
 [node name="ButtonContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 theme = ExtResource("1_5f47s")
@@ -61,5 +72,6 @@ text = "Accept
 "
 
 [connection signal="value_changed" from="VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="item_selected" from="ResolutionsList" to="." method="_on_resolutions_list_item_selected"]
 [connection signal="pressed" from="ButtonContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
