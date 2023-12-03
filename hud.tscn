@@ -1,72 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmayutx5y6qn2"]
+[gd_scene load_steps=6 format=3 uid="uid://bmayutx5y6qn2"]
 
-[ext_resource type="FontFile" uid="uid://6pl6qtoo2p2x" path="res://fonts/Xolonium-Regular.ttf" id="1_mrjpl"]
 [ext_resource type="Script" path="res://hud.gd" id="1_yvwpl"]
-
-[sub_resource type="InputEventKey" id="InputEventKey_3q6ti"]
-device = -1
-keycode = 4194309
-
-[sub_resource type="Shortcut" id="Shortcut_x1tp5"]
-events = [SubResource("InputEventKey_3q6ti")]
+[ext_resource type="PackedScene" uid="uid://cgyfby7iyicvk" path="res://pause_menu.tscn" id="3_85j22"]
+[ext_resource type="PackedScene" uid="uid://barng7g5f88e1" path="res://game_hud.tscn" id="3_ngg74"]
+[ext_resource type="PackedScene" uid="uid://c2wd17pucak4y" path="res://button_container.tscn" id="4_s10d1"]
+[ext_resource type="PackedScene" uid="uid://c5h5ow130d3p8" path="res://options_menu.tscn" id="5_yf6aw"]
 
 [node name="HUD" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_yvwpl")
 
-[node name="ScoreLabel" type="Label" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -22.5
-offset_right = 22.5
-offset_bottom = 78.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("1_mrjpl")
-theme_override_font_sizes/font_size = 64
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="PauseMenu" parent="." instance=ExtResource("3_85j22")]
+visible = false
 
-[node name="Message" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -120.0
-offset_right = 240.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_mrjpl")
-theme_override_font_sizes/font_size = 64
-text = "Dodge the creeps!"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
+[node name="GameHUD" parent="." instance=ExtResource("3_ngg74")]
 
-[node name="StartButton" type="Button" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -140.0
-offset_right = 100.0
-offset_bottom = -40.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("1_mrjpl")
-theme_override_font_sizes/font_size = 64
-shortcut = SubResource("Shortcut_x1tp5")
-text = "Start
-"
+[node name="ButtonContainer" parent="." instance=ExtResource("4_s10d1")]
 
-[node name="MessageTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
+[node name="OptionsMenu" parent="." instance=ExtResource("5_yf6aw")]
+visible = false
 
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="restart_button_pressed" from="PauseMenu" to="." method="_on_pause_menu_restart_button_pressed"]
+[connection signal="resume_button_pressed" from="PauseMenu" to="." method="_on_resume_button_pressed"]
+[connection signal="game_over_finished" from="GameHUD" to="." method="_on_game_over_finished"]
+[connection signal="close_game_pressed" from="ButtonContainer" to="." method="_on_exit_button_pressed"]
+[connection signal="options_menu_pressed" from="ButtonContainer" to="." method="_on_options_button_pressed"]
+[connection signal="start_game_pressed" from="ButtonContainer" to="." method="_on_start_button_pressed"]
+[connection signal="options_closed" from="OptionsMenu" to="." method="_on_options_menu_options_closed"]
