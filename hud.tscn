@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://hud.gd" id="1_yvwpl"]
 [ext_resource type="PackedScene" uid="uid://cgyfby7iyicvk" path="res://pause_menu.tscn" id="3_85j22"]
-[ext_resource type="PackedScene" uid="uid://barng7g5f88e1" path="res://game_hud.tscn" id="3_ngg74"]
-[ext_resource type="PackedScene" uid="uid://c2wd17pucak4y" path="res://button_container.tscn" id="4_s10d1"]
-[ext_resource type="PackedScene" uid="uid://c5h5ow130d3p8" path="res://options_menu.tscn" id="5_yf6aw"]
+[ext_resource type="PackedScene" uid="uid://biw2u40g03cy6" path="res://game_hud.tscn" id="3_ngg74"]
+[ext_resource type="PackedScene" uid="uid://b1abq5auordhs" path="res://button_container.tscn" id="4_s10d1"]
+[ext_resource type="PackedScene" uid="uid://dimtv0os7sekk" path="res://options_menu.tscn" id="5_yf6aw"]
 
 [node name="HUD" type="CanvasLayer"]
 process_mode = 3

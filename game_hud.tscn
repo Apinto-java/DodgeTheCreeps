@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://barng7g5f88e1"]
+[gd_scene load_steps=3 format=3 uid="uid://biw2u40g03cy6"]
 
 [ext_resource type="Script" path="res://game_hud.gd" id="2_22ej2"]
 [ext_resource type="FontFile" uid="uid://6pl6qtoo2p2x" path="res://fonts/Xolonium-Regular.ttf" id="2_e8tjs"]
