@@ -1,4 +1,7 @@
 extends Node
+
+signal game_is_over(final_score: int)
+
 @export var mob_scene: PackedScene
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
@@ -16,7 +19,7 @@ func game_over():
 	can_pause_changed.emit(false)
 	score_timer.stop()
 	mob_timer.stop()
-	hud.show_game_over()
+	game_is_over.emit(score)
 	music.stop()
 	death_sound.play()
 
