@@ -1,41 +1,57 @@
 extends Node
+
+signal game_is_over(final_score: int)
+signal can_pause_changed(can_pause: bool)
+signal can_change_difficulty(can_change_difficulty: bool)
+
 @export var mob_scene: PackedScene
+@onready var start_timer: Timer = $StartTimer
+@onready var score_timer: Timer = $ScoreTimer
+@onready var mob_timer: Timer = $MobTimer
+@onready var hud = $HUD
+@onready var player = $Player
+@onready var start_position: Marker2D = $StartPosition
+@onready var music = $Music
+@onready var death_sound = $DeathSound
 var score
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	Settings.difficulty_changed.connect(on_difficulty_changed)
+	can_change_difficulty.connect($HUD/OptionsMenu.on_can_change_difficulty_changed)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
+func on_difficulty_changed(new_difficulty):
+	mob_timer.wait_time = Settings.settings.difficulty.enemy_spawn_time
 
 func game_over():
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	$HUD.show_game_over()
-	$Music.stop()
-	$DeathSound.play()
+	can_pause_changed.emit(false)
+	can_change_difficulty.emit(true)
+	score_timer.stop()
+	mob_timer.stop()
+	game_is_over.emit(score)
+	music.stop()
+	death_sound.play()
 
 func new_game():
+	can_change_difficulty.emit(false)
+	can_pause_changed.emit(true)
+	score_timer.stop()
+	mob_timer.stop()
 	score = 0
-	$Player.start($StartPosition.position)
-	$StartTimer.start()
-	$HUD.update_score(score)
-	$HUD.show_message("Get Ready")
+	player.start(start_position.position)
+	start_timer.start()
+	hud.show_score()
+	hud.update_score(score)
+	hud.show_message("Get Ready")
 	get_tree().call_group("mobs", "queue_free")
-	$Music.play()
-
+	music.play()
 
 func _on_start_timer_timeout():
-	$MobTimer.start()
-	$ScoreTimer.start()
-
+	mob_timer.start()
+	score_timer.start()
 
 func _on_score_timer_timeout():
 	score += 1
-	$HUD.update_score(score)
+	hud.update_score(score)
 
 
 func _on_mob_timer_timeout():

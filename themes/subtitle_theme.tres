@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://0mcaptcoklj2"]
+
+[ext_resource type="FontFile" uid="uid://6pl6qtoo2p2x" path="res://fonts/Xolonium-Regular.ttf" id="1_f4ond"]
+
+[resource]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_f4ond")
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_f4ond")
+TextEdit/font_sizes/font_size = 32
+TextEdit/fonts/font = ExtResource("1_f4ond")
