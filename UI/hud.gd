@@ -81,3 +81,6 @@ func _on_leaderboard_closed():
 	leaderboard_ui.hide()
 	buttons.show()
 	game_hud.show()
+
+
+

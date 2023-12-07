@@ -27,6 +27,16 @@ text = "Options"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="DifficultyLabel" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("3_s6jy7")
+text = "Difficulty
+"
+
+[node name="DifficultyList" type="OptionButton" parent="."]
+layout_mode = 2
+theme = ExtResource("3_s6jy7")
+
 [node name="VolumeLabel" type="Label" parent="."]
 layout_mode = 2
 theme = ExtResource("3_s6jy7")

@@ -1,6 +1,8 @@
 extends Node
 
 signal game_is_over(final_score: int)
+signal can_pause_changed(can_pause: bool)
+signal can_change_difficulty(can_change_difficulty: bool)
 
 @export var mob_scene: PackedScene
 @onready var start_timer: Timer = $StartTimer
@@ -13,10 +15,16 @@ signal game_is_over(final_score: int)
 @onready var death_sound = $DeathSound
 var score
 
-signal can_pause_changed(can_pause: bool)
+func _ready():
+	Settings.difficulty_changed.connect(on_difficulty_changed)
+	can_change_difficulty.connect($HUD/OptionsMenu.on_can_change_difficulty_changed)
+
+func on_difficulty_changed(new_difficulty):
+	mob_timer.wait_time = Settings.settings.difficulty.enemy_spawn_time
 
 func game_over():
 	can_pause_changed.emit(false)
+	can_change_difficulty.emit(true)
 	score_timer.stop()
 	mob_timer.stop()
 	game_is_over.emit(score)
@@ -24,6 +32,7 @@ func game_over():
 	death_sound.play()
 
 func new_game():
+	can_change_difficulty.emit(false)
 	can_pause_changed.emit(true)
 	score_timer.stop()
 	mob_timer.stop()

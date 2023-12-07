@@ -5,7 +5,13 @@ signal options_closed
 @onready var volume_slider: HSlider = $VolumeSlider
 @onready var fullscreen_toggle: CheckBox = $FullscreenToggle
 @onready var resolution_options: OptionButton = $ResolutionsList
+@onready var difficulty_options: OptionButton = $DifficultyList
 var main_audio_bus_idx = AudioServer.get_bus_index("Master")
+var can_change_difficulty: bool = true
+
+func on_can_change_difficulty_changed(can_change_difficulty_value):
+	can_change_difficulty = can_change_difficulty_value
+	difficulty_options.disabled = !can_change_difficulty
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,8 +22,18 @@ func _ready():
 	volume_slider.value = volume
 	fullscreen_toggle.button_pressed = fullscreen
 	load_resolutions()
+	load_difficulties()
 	set_volume(volume)
 	toggle_fullscreen(fullscreen)
+
+func load_difficulties():
+	var idx: int = 0
+	for diff in Settings.available_difficulties:
+		difficulty_options.add_item(diff.name, idx)
+		if(diff.name == Settings.settings.difficulty.name):
+			difficulty_options.select(idx)
+		idx += 1
+	pass
 
 func load_resolutions():
 	# Loop through the available resolutions array, parse the resolutions, 
@@ -73,5 +89,6 @@ func _on_accept_button_pressed():
 	if(res_vector != Vector2i.ZERO):
 		Settings.settings.resolution_x = res_vector.x
 		Settings.settings.resolution_y = res_vector.y
+	Settings.settings["difficulty"] = Settings.available_difficulties[difficulty_options.selected]
 	Settings.save_settings()
 	options_closed.emit()
