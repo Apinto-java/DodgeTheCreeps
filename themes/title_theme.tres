@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://e0ko5wbqflma"]
+
+[ext_resource type="FontFile" uid="uid://6pl6qtoo2p2x" path="res://fonts/Xolonium-Regular.ttf" id="1_xk0t7"]
+
+[resource]
+default_font = ExtResource("1_xk0t7")
+default_font_size = 64
+Button/font_sizes/font_size = 64
+Button/fonts/font = ExtResource("1_xk0t7")
+Label/font_sizes/font_size = 64
+Label/font_sizes/subtitle_font_size = 32
+Label/fonts/font = ExtResource("1_xk0t7")
+VBoxContainer/constants/separation = 20

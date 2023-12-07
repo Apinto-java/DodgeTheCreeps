@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgq57pybyb6uv"]
+
+[ext_resource type="Theme" uid="uid://d2vfdeuycvrrh" path="res://themes/container_theme.tres" id="1_olj7c"]
+[ext_resource type="Script" path="res://UI/score_confirmation.gd" id="1_sycq3"]
+[ext_resource type="Theme" uid="uid://0mcaptcoklj2" path="res://themes/subtitle_theme.tres" id="2_hwqtw"]
+
+[node name="Score_Confirmation" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sycq3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+color = Color(0.717647, 0.717647, 0.717647, 0.313726)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_olj7c")
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme = ExtResource("2_hwqtw")
+text = "Enter your name"
+autowrap_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme = ExtResource("2_hwqtw")
+placeholder_text = "ABCDFG"
+
+[node name="Button" type="Button" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_hwqtw")
+text = "Ok"
+
+[connection signal="text_changed" from="ColorRect/VBoxContainer/TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="pressed" from="ColorRect/VBoxContainer/Button" to="." method="_on_button_pressed"]
