@@ -25,7 +25,7 @@ func _on_text_edit_text_changed():
 	cursor_column = text_edit.get_caret_column()
 
 func _on_button_pressed():
-	var user_score: Dictionary = { "username": current_text, "score": score }
+	var user_score: Dictionary = { "username": current_text, "score": score, "difficulty": Settings.settings.difficulty}
 	Leaderboard.add_score(user_score, true)
 	score_confirmed.emit()
 	score = 0

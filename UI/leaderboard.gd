@@ -30,10 +30,13 @@ func remove_invalid_score(score) -> bool:
 	if typeof(score) != TYPE_DICTIONARY:
 		return false
 	var score_dict: Dictionary = score
-	return _valid_username(score_dict) && _valid_score(score_dict)
+	return _valid_username(score_dict) && _valid_score(score_dict) && _valid_difficulty(score_dict)
 
 func _valid_username(score_dict: Dictionary) -> bool:
 	return score_dict.has("username") && typeof(score_dict["username"]) == TYPE_STRING
 
 func _valid_score(score_dict: Dictionary) -> bool:
 	return score_dict.has("score") && (typeof(score_dict["score"]) == TYPE_INT || typeof(score_dict["score"]) == TYPE_FLOAT) && score_dict["score"] > 0
+
+func _valid_difficulty(score_dict: Dictionary) -> bool:
+	return score_dict.has("difficulty") && typeof(score_dict["difficulty"]) == TYPE_DICTIONARY && Settings.available_difficulties.has(score_dict["difficulty"])

@@ -17,11 +17,24 @@ func _ready():
 	_load_scores()
 
 func _load_scores():
+	scores.sort_custom(_sort_by_score_and_difficulty)
 	for score in scores:
 		var username_label: Label = _username_label(score.username)
 		var user_score: Label = _user_score(score.score)
+		var user_difficulty: Label = _user_difficulty(score.difficulty)
 		score_grid_container.add_child(username_label)
 		score_grid_container.add_child(user_score)
+		score_grid_container.add_child(user_difficulty)
+
+func _sort_by_score_and_difficulty(a, b) -> bool:
+	# If the difficulty is higher in the first item
+	if(a.difficulty.enemy_spawn_time < b.difficulty.enemy_spawn_time):
+		return true
+	# If the difficulty is the same for both items but the score in the first
+	# item is higher
+	if(a.difficulty.enemy_spawn_time == b.difficulty.enemy_spawn_time) && (a.score > b.score):
+		return true
+	return false
 
 func _reload_scores():
 	for n in score_grid_container.get_children():
@@ -34,7 +47,7 @@ func _grid_label(text: String) -> Label:
 	var label: Label = Label.new()
 	label.text = text
 	label.theme = SubtitleTheme
-	label.custom_minimum_size = Vector2(230, 0)
+	label.custom_minimum_size = Vector2(160, 0)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	return label
 
@@ -43,6 +56,9 @@ func _username_label(username: String) -> Label:
 
 func _user_score(user_score: int) -> Label:
 	return _grid_label(str(user_score))
+
+func _user_difficulty(user_difficulty) -> Label:
+	return _grid_label(user_difficulty.name)
 
 func _on_go_back_button_pressed():
 	leaderboard_closed.emit()
